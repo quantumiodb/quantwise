@@ -1,27 +1,56 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "quantwise",
-  "description": "QuantWise trading intelligence skills and macOS tools",
   "owner": {
     "name": "quantumiodb",
-    "url": "https://github.com/quantumiodb"
+    "email": "yjhjstz@gmail.com"
+  },
+  "metadata": {
+    "description": "QuantWise trading intelligence skills and macOS tools",
+    "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "trading-skills",
-      "description": "29 professional trading analysis skills for US equity markets",
-      "category": "productivity",
-      "source": "./plugins/trading-skills",
-      "homepage": "https://github.com/quantumiodb/quantwise",
-      "tags": ["trading", "stocks", "market-analysis", "technical-analysis", "screening"]
+      "description": "29 professional trading analysis skills for US equity markets — market timing, stock screening, portfolio management, and macro analysis",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./plugins/trading-skills/skills/backtest-expert",
+        "./plugins/trading-skills/skills/breadth-chart-analyst",
+        "./plugins/trading-skills/skills/canslim-screener",
+        "./plugins/trading-skills/skills/chart",
+        "./plugins/trading-skills/skills/dividend-growth-pullback-screener",
+        "./plugins/trading-skills/skills/earnings-calendar",
+        "./plugins/trading-skills/skills/economic-calendar-fetcher",
+        "./plugins/trading-skills/skills/ftd-detector",
+        "./plugins/trading-skills/skills/institutional-flow-tracker",
+        "./plugins/trading-skills/skills/macro-regime-detector",
+        "./plugins/trading-skills/skills/market-breadth-analyzer",
+        "./plugins/trading-skills/skills/market-environment-analysis",
+        "./plugins/trading-skills/skills/market-news-analyst",
+        "./plugins/trading-skills/skills/market-top-detector",
+        "./plugins/trading-skills/skills/options-strategy-advisor",
+        "./plugins/trading-skills/skills/pair-trade-screener",
+        "./plugins/trading-skills/skills/portfolio-manager",
+        "./plugins/trading-skills/skills/scenario-analyzer",
+        "./plugins/trading-skills/skills/sector-analyst",
+        "./plugins/trading-skills/skills/stanley-druckenmiller-investment",
+        "./plugins/trading-skills/skills/stock",
+        "./plugins/trading-skills/skills/technical-analyst",
+        "./plugins/trading-skills/skills/theme-detector",
+        "./plugins/trading-skills/skills/uptrend-analyzer",
+        "./plugins/trading-skills/skills/us-market-bubble-detector",
+        "./plugins/trading-skills/skills/us-stock-analysis",
+        "./plugins/trading-skills/skills/value-dividend-screener",
+        "./plugins/trading-skills/skills/vcp-screener",
+        "./plugins/trading-skills/skills/weekly-trade-strategy"
+      ]
     },
     {
       "name": "macos-tools",
       "description": "macOS utilities: speech recognition, cherry-pick conflict resolver",
-      "category": "productivity",
       "source": "./plugins/macos-tools",
-      "homepage": "https://github.com/quantumiodb/quantwise",
-      "tags": ["macos", "voice", "git", "utilities"]
+      "strict": false
     }
   ]
 }
