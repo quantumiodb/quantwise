@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "QuantWise Browser Relay",
+  "version": "1.0.2",
+  "description": "Connects QuantWise to browser tabs via Chrome DevTools Protocol",
+  "permissions": [
+    "debugger",
+    "tabs",
+    "activeTab",
+    "storage",
+    "alarms",
+    "webNavigation"
+  ],
+  "host_permissions": ["http://127.0.0.1/*"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": false
+  },
+  "action": {
+    "default_title": "QuantWise: Click to attach debugger to this tab"
+  },
+  "icons": {}
+}

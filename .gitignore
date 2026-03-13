@@ -23,3 +23,9 @@ Thumbs.db
 
 # Output artifacts
 *.json.bak
+
+# Swift build artifacts
+.build/
+*.xcodeproj/
+*.app/
+DerivedData/

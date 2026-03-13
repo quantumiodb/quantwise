@@ -32,6 +32,22 @@ Then install plugins:
 
 macOS utilities: speech recognition (dictation), cherry-pick conflict resolver.
 
+## Apps
+
+### [macOS App](./apps/macos/)
+
+Native macOS menubar app (Swift/SwiftUI) — chat interface, speech-to-text, TTS, camera integration, permission management.
+
+```bash
+cd apps/macos && swift build
+```
+
+## Assets
+
+### [Chrome Extension](./assets/chrome-extension/)
+
+Browser extension for quick access to QuantWise from any webpage.
+
 ## Requirements
 
 - [Claude Code](https://claude.ai/code) or compatible CLI
