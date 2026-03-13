@@ -1,0 +1,198 @@
+#!/usr/bin/env python3
+"""
+Component 2: Leading Stock Health (Weight: 20%)
+
+Evaluates health of leading/growth ETFs as proxy for market leadership.
+Uses ETF baskets instead of individual stocks for API efficiency.
+
+ETF Basket: ARKK, WCLD, IGV, XBI, SOXX, SMH, KWEB, TAN
+
+Evaluation per ETF:
+- Distance from 52-week high
+- Position vs 50DMA and 200DMA
+- Lower highs pattern detection
+
+Scoring: Weighted average of ETF deterioration signals.
+If 60%+ ETFs are deteriorating, apply 1.3x amplification.
+"""
+
+from typing import Dict, List, Optional
+import sys
+
+# Leading/Growth ETF basket
+LEADING_ETFS = ["ARKK", "WCLD", "IGV", "XBI", "SOXX", "SMH", "KWEB", "TAN"]
+
+
+def calculate_leading_stock_health(quotes: Dict[str, Dict],
+                                   historical: Dict[str, List[Dict]]) -> Dict:
+    """
+    Calculate leading stock health score.
+
+    Args:
+        quotes: Dict of symbol -> quote data (from FMP batch quote)
+        historical: Dict of symbol -> list of daily OHLCV (most recent first, ~60 days)
+
+    Returns:
+        Dict with score (0-100), etf_details, signal
+    """
+    etf_scores = []
+    etf_details = {}
+
+    for symbol in LEADING_ETFS:
+        quote = quotes.get(symbol)
+        hist = historical.get(symbol, [])
+
+        if not quote:
+            continue
+
+        detail = _evaluate_etf(symbol, quote, hist)
+        etf_scores.append(detail["deterioration_score"])
+        etf_details[symbol] = detail
+
+    if not etf_scores:
+        return {
+            "score": 50,
+            "signal": "INSUFFICIENT DATA",
+            "etf_details": {},
+            "etfs_evaluated": 0,
+            "etfs_deteriorating": 0,
+            "data_available": False,
+        }
+
+    avg_deterioration = sum(etf_scores) / len(etf_scores)
+
+    # Count deteriorating ETFs (score >= 50)
+    deteriorating_count = sum(1 for s in etf_scores if s >= 50)
+    deteriorating_pct = deteriorating_count / len(etf_scores)
+
+    # Amplification: if 60%+ ETFs deteriorating, multiply by 1.3
+    if deteriorating_pct >= 0.60:
+        final_score = min(100, avg_deterioration * 1.3)
+    else:
+        final_score = avg_deterioration
+
+    final_score = round(min(100, max(0, final_score)))
+
+    # Signal
+    if final_score >= 70:
+        signal = "CRITICAL: Leadership broadly deteriorating"
+    elif final_score >= 50:
+        signal = "WARNING: Multiple leaders weakening"
+    elif final_score >= 30:
+        signal = "CAUTION: Some leaders showing strain"
+    else:
+        signal = "HEALTHY: Leadership intact"
+
+    return {
+        "score": final_score,
+        "signal": signal,
+        "avg_deterioration": round(avg_deterioration, 1),
+        "etfs_evaluated": len(etf_scores),
+        "etfs_deteriorating": deteriorating_count,
+        "deteriorating_pct": round(deteriorating_pct * 100, 1),
+        "amplified": deteriorating_pct >= 0.60,
+        "etf_details": etf_details,
+        "data_available": True,
+    }
+
+
+def _evaluate_etf(symbol: str, quote: Dict, history: List[Dict]) -> Dict:
+    """Evaluate a single ETF's deterioration level"""
+    score = 0
+    flags = []
+
+    price = quote.get("price", 0)
+    year_high = quote.get("yearHigh", 0)
+    year_low = quote.get("yearLow", 0)
+
+    # 1. Distance from 52-week high (0-40 points)
+    if year_high > 0:
+        distance_pct = (price - year_high) / year_high * 100
+        if distance_pct <= -25:
+            score += 40
+            flags.append(f">{abs(distance_pct):.0f}% below 52wk high (bear territory)")
+        elif distance_pct <= -15:
+            score += 30
+            flags.append(f"{abs(distance_pct):.0f}% below 52wk high (correction)")
+        elif distance_pct <= -10:
+            score += 20
+            flags.append(f"{abs(distance_pct):.0f}% below 52wk high")
+        elif distance_pct <= -5:
+            score += 10
+            flags.append(f"{abs(distance_pct):.0f}% below 52wk high")
+    else:
+        distance_pct = 0
+
+    # 2. Position vs moving averages (0-40 points)
+    if history and len(history) >= 50:
+        closes = [d.get("close", d.get("adjClose", 0)) for d in history]
+
+        # 50DMA
+        sma50 = sum(closes[:50]) / 50
+        if price < sma50:
+            score += 20
+            flags.append(f"Below 50DMA (${sma50:.2f})")
+
+        # 200DMA (if enough data)
+        if len(closes) >= 200:
+            sma200 = sum(closes[:200]) / 200
+            if price < sma200:
+                score += 20
+                flags.append(f"Below 200DMA (${sma200:.2f})")
+        elif len(closes) >= 50:
+            # Estimate 200DMA position from available data
+            if price < sma50 * 0.95:  # >5% below 50DMA suggests below 200DMA
+                score += 10
+                flags.append("Likely below 200DMA (estimated)")
+
+    elif history and len(history) >= 20:
+        closes = [d.get("close", d.get("adjClose", 0)) for d in history]
+        sma20 = sum(closes[:20]) / 20
+        if price < sma20:
+            score += 15
+            flags.append(f"Below 20DMA (${sma20:.2f})")
+
+    # 3. Lower highs pattern (0-20 points)
+    if history and len(history) >= 20:
+        lower_highs = _detect_lower_highs(history)
+        if lower_highs:
+            score += 20
+            flags.append("Lower highs pattern detected")
+
+    score = min(100, score)
+
+    return {
+        "deterioration_score": score,
+        "price": price,
+        "year_high": year_high,
+        "distance_from_high_pct": round(distance_pct, 1),
+        "flags": flags,
+    }
+
+
+def _detect_lower_highs(history: List[Dict], lookback: int = 20) -> bool:
+    """
+    Detect lower highs pattern in recent price action.
+
+    Look for at least 2 consecutive lower swing highs in the last 20 days.
+    """
+    if len(history) < lookback:
+        return False
+
+    highs = [d.get("high", d.get("close", 0)) for d in history[:lookback]]
+
+    # Find local maxima (swing highs)
+    swing_highs = []
+    for i in range(1, len(highs) - 1):
+        if highs[i] > highs[i-1] and highs[i] > highs[i+1]:
+            swing_highs.append(highs[i])
+
+    # Need at least 2 swing highs to compare
+    if len(swing_highs) < 2:
+        return False
+
+    # Check if most recent swing highs are declining
+    # swing_highs[0] is earliest (since history is most-recent-first, reversed)
+    # Actually history[0] = most recent, so highs[0] = most recent high
+    # So swing_highs are in reverse chronological order
+    return swing_highs[0] < swing_highs[1]

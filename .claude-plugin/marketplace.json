@@ -1,0 +1,27 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "quantwise",
+  "description": "QuantWise trading intelligence skills and macOS tools",
+  "owner": {
+    "name": "quantumiodb",
+    "url": "https://github.com/quantumiodb"
+  },
+  "plugins": [
+    {
+      "name": "trading-skills",
+      "description": "29 professional trading analysis skills for US equity markets",
+      "category": "productivity",
+      "source": "./plugins/trading-skills",
+      "homepage": "https://github.com/quantumiodb/quantwise",
+      "tags": ["trading", "stocks", "market-analysis", "technical-analysis", "screening"]
+    },
+    {
+      "name": "macos-tools",
+      "description": "macOS utilities: speech recognition, cherry-pick conflict resolver",
+      "category": "productivity",
+      "source": "./plugins/macos-tools",
+      "homepage": "https://github.com/quantumiodb/quantwise",
+      "tags": ["macos", "voice", "git", "utilities"]
+    }
+  ]
+}

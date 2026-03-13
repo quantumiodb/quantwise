@@ -1,0 +1,25 @@
+# Environment & credentials
+.env
+.env.*
+*.credentials*
+cookies.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Output artifacts
+*.json.bak
