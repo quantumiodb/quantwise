@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "notion": {
+      "type": "http",
+      "url": "https://mcp.notion.com/mcp",
+      "oauth": true
+    },
+    "xiaohongshu": {
+      "type": "http",
+      "url": "http://localhost:18060/mcp"
+    },
+    "stock-analysis": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "stockquotes-mcp"]
+    }
+  }
+}
