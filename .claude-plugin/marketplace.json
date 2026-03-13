@@ -11,6 +11,7 @@
   "plugins": [
     {
       "name": "trading-skills",
+      "version": "1.0.0",
       "description": "29 professional trading analysis skills for US equity markets — market timing, stock screening, portfolio management, and macro analysis",
       "source": "./",
       "strict": false,
@@ -48,6 +49,7 @@
     },
     {
       "name": "macos-tools",
+      "version": "1.0.0",
       "description": "macOS utilities: speech recognition, cherry-pick conflict resolver",
       "source": "./plugins/macos-tools",
       "strict": false
