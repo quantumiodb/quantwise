@@ -1,8 +1,85 @@
 # QuantWise
 
-AI-powered trading intelligence CLI built on Claude Code. Professional-grade market analysis, stock screening, and strategy generation — all from your terminal.
+An agentic coding & trading intelligence tool that lives in your terminal. Built on Claude, it understands your codebase and provides market analysis — all through natural language commands.
 
-## Install Skills
+## Install
+
+```bash
+npm install -g quantwise
+```
+
+Or use the install script (standalone binary):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/quantumiodb/ccode/main/install.sh | bash
+```
+
+## Setup
+
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...
+quantwise
+```
+
+## Quick Start
+
+```bash
+# Start interactive session
+quantwise
+
+# One-shot command
+quantwise -p "explain this project's architecture"
+
+# Pipe input
+git diff | quantwise -p "review this diff"
+```
+
+## Features
+
+### Coding Assistant
+- Edit files, fix bugs, refactor code across your codebase
+- Answer questions about code architecture and logic
+- Execute and fix tests, lint, and other commands
+- Git operations: merge conflicts, commits, PRs
+
+### Trading & Market Intelligence (30+ built-in skills)
+- **Stock Analysis** — real-time quotes, technical analysis, candlestick charts
+- **Market Environment** — global market analysis (US, Europe, Asia, FX, Commodities)
+- **Market Top/Bottom Detection** — O'Neil distribution days, Follow-Through Day signals
+- **CANSLIM Screener** — William O'Neil growth stock methodology
+- **VCP Screener** — Minervini Volatility Contraction Patterns
+- **Options Strategy** — Black-Scholes pricing, Greeks, P/L simulation
+- **Institutional Flow** — 13F filings tracking for smart money signals
+- **Portfolio Manager** — holdings analysis, risk metrics, rebalancing
+- **Weekly Strategy** — automated trading strategy report generation
+
+### Built-in Tools
+- **Bash** — execute shell commands
+- **File operations** — read, write, edit, glob, grep
+- **Web** — fetch URLs, search the web
+- **Browser** — headless browser control (navigate, click, screenshot)
+- **Debugger** — interactive LLDB/GDB debugging
+- **Psql** — interactive PostgreSQL sessions
+- **Notebook** — read and edit Jupyter notebooks
+
+### Integrations (via MCP)
+- Notion, Xiaohongshu, stock data, and more
+
+## Skills
+
+QuantWise ships with 30+ trading & analysis skills. Use them as slash commands:
+
+```
+/stock AAPL
+/chart TSLA
+/canslim-screener
+/market-top-detector
+/weekly-trade-strategy
+```
+
+List all available skills: type `/` in the interactive session.
+
+## Install Skills from Marketplace
 
 Add the QuantWise marketplace to Claude Code:
 
