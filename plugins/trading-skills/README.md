@@ -60,6 +60,11 @@
 | `backtest-expert` | Systematic backtesting methodology and robustness testing |
 | `stanley-druckenmiller-investment` | Druckenmiller-style macro analysis and position building |
 
+## Prerequisites
+
+These skills require MCP servers (stock-analysis, etc.) to be configured.
+For zero-config setup → **[install QuantWise](https://github.com/quantumiodb/quantwise)**
+
 ## Requirements
 
 - [FMP API key](https://financialmodelingprep.com/) for most screening skills
