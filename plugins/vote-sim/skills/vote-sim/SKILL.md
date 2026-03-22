@@ -1,6 +1,6 @@
 ---
 name: vote-sim
-description: 群体决策模拟器。用正态分布温度控制N个独立LLM agent投票，模拟人类群体对任意问题的意见分布。适用于技术选型、产品决策、生活选择、政策讨论等。用法: /vote-sim "问题" 选项1 选项2 [选项3...]
+description: "群体决策模拟器。用正态分布温度控制N个独立LLM agent投票，模拟人类群体对任意问题的意见分布。适用于技术选型、产品决策、生活选择、政策讨论等。用法: /vote-sim \"问题\" 选项1 选项2 [选项3...]"
 user-invocable: true
 allowed-tools: [Bash]
 context: inline
