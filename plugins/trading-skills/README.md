@@ -32,6 +32,7 @@
 | `value-dividend-screener` | Value + high dividend screening (P/E < 20, yield > 3%) |
 | `dividend-growth-pullback-screener` | Dividend growth stocks at RSI oversold pullbacks |
 | `pair-trade-screener` | Statistical arbitrage — cointegrated pairs with z-score signals |
+| `polymarket-arb` | Polymarket negRisk full-bucket arbitrage scanner (weather + sports) |
 | `theme-detector` | Trending market themes and sector rotation lifecycle analysis |
 | `institutional-flow-tracker` | 13F filings — smart money accumulation/distribution tracking |
 
