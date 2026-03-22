@@ -1,0 +1,6 @@
+{
+  "name": "vote-sim",
+  "version": "1.0.0",
+  "description": "Group decision simulator — uses normal-distribution temperature to control N independent LLM agents and simulate human crowd opinion on any question",
+  "author": "quantumiodb"
+}
