@@ -5,14 +5,14 @@
     "email": "yjhjstz@gmail.com"
   },
   "metadata": {
-    "description": "QuantWise trading intelligence skills and macOS tools",
+    "description": "QuantWise trading intelligence skills and general-purpose decision tools",
     "version": "1.0.0"
   },
   "plugins": [
     {
       "name": "trading-skills",
       "version": "1.0.0",
-      "description": "29 professional trading analysis skills for US equity markets — market timing, stock screening, portfolio management, and macro analysis",
+      "description": "30 professional trading analysis skills for US equity markets — market timing, stock screening, portfolio management, and macro analysis",
       "source": "./",
       "strict": false,
       "skills": [
@@ -44,15 +44,17 @@
         "./plugins/trading-skills/skills/us-stock-analysis",
         "./plugins/trading-skills/skills/value-dividend-screener",
         "./plugins/trading-skills/skills/vcp-screener",
-        "./plugins/trading-skills/skills/weekly-trade-strategy"
+        "./plugins/trading-skills/skills/weekly-trade-strategy",
+        "./plugins/trading-skills/skills/polymarket-arb"
       ]
     },
     {
-      "name": "macos-tools",
+      "name": "vote-sim",
       "version": "1.0.0",
-      "description": "macOS utilities: speech recognition, cherry-pick conflict resolver",
-      "source": "./plugins/macos-tools",
-      "strict": false
+      "description": "Group decision simulator — normal-distribution temperature controls N independent LLM agents to simulate human crowd opinion on any question",
+      "source": "./plugins/vote-sim",
+      "strict": false,
+      "skills": ["./plugins/vote-sim/skills/vote-sim"]
     }
   ]
 }
