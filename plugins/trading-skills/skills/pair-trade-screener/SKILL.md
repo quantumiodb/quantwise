@@ -1,6 +1,7 @@
 ---
 name: pair-trade-screener
 description: Statistical arbitrage tool for identifying and analyzing pair trading opportunities. Detects cointegrated stock pairs within sectors, analyzes spread behavior, calculates z-scores, and provides entry/exit recommendations for market-neutral strategies. Use when user requests pair trading opportunities, statistical arbitrage screening, mean-reversion strategies, or market-neutral portfolio construction. Supports correlation analysis, cointegration testing, and spread backtesting.
+allowed-tools: [Bash(python3:*)]
 ---
 
 # Pair Trade Screener

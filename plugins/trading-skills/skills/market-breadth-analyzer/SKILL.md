@@ -1,6 +1,7 @@
 ---
 name: market-breadth-analyzer
 description: 使用TraderMonty的公开CSV数据量化市场广度健康状况。生成0-100的综合评分，涵盖6个维度（100 = 健康）。无需API密钥。当用户询问市场广度、参与率、涨跌线健康状况、上涨是否广泛，或整体市场健康评估时使用。
+allowed-tools: [Bash(python3:*)]
 ---
 
 # 市场广度分析器技能

@@ -1,6 +1,7 @@
 ---
 name: portfolio-manager
 description: Comprehensive portfolio analysis using Alpaca MCP Server integration to fetch holdings and positions, then analyze asset allocation, risk metrics, individual stock positions, diversification, and generate rebalancing recommendations. Use when user requests portfolio review, position analysis, risk assessment, performance evaluation, or rebalancing suggestions for their brokerage account.
+allowed-tools: [WebSearch, WebFetch]
 ---
 
 # Portfolio Manager

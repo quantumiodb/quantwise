@@ -1,23 +1,23 @@
 ---
 name: deep-research
-description: 个股深度研究。并行运行基本面、技术面、催化剂、风险4个分析agent，自动整合为综合研报并存入Notion。用法：/deep-research AAPL。触发：深度分析、个股研究、comprehensive analysis、deep dive、deep research
+description: 个股深度研究。串行运行基本面、技术面、催化剂、风险4个分析agent，自动整合为综合研报并存入Notion。用法：/deep-research AAPL。触发：深度分析、个股研究、comprehensive analysis、deep dive、deep research
 argument-hint: "stock ticker (e.g., AAPL)"
-allowed-tools: [Bash, mcp__notion__notion-create-pages, mcp__notion__notion-search, mcp__notion__notion-query-database-view]
+allowed-tools: [Bash, WebSearch, WebFetch, Edit, Replace, mcp__notion__notion-create-pages, mcp__notion__notion-search, mcp__notion__notion-query-database-view]
 ---
 
 # Deep Research - 个股深度研究
 
 ## Overview
 
-对单只股票进行全维度深度分析，通过**并行**启动4个专业分析 agent，最终整合为一份综合研报。
+对单只股票进行全维度深度分析，通过启动4个专业分析 agent，最终整合为一份综合研报。
 
 **核心流程：**
 ```
 /deep-research TICKER
   │
   ├─→ [fundamental-analyst] → fundamental.md   ┐
-  ├─→ [technical-analyst]   → technical.md     │ 并行执行
-  ├─→ [catalyst-analyst]    → catalyst.md      │ (4 agents)
+  ├─→ [technical-analyst]   → technical.md     │ 串行执行
+  ├─→ [catalyst-analyst]    → catalyst.md      │ (依次完成)
   ├─→ [risk-analyst]        → risk.md          ┘
   │
   └─→ [主流程整合] → deep_research_TICKER_DATE.md → [Notion]
@@ -69,61 +69,45 @@ mkdir -p skills/deep-research/reports/${TICKER}_${DATE}
 
 ---
 
-### Step 1: 并行启动4个分析 Agent
+### Step 1: 串行执行4个分析 Agent
 
-**关键：在同一个 message 中发出4个 Task 调用，确保并行执行。**
+**关键：依次启动4个 Agent，等待每个完成后再启动下一个。**
 
-使用 Task tool 同时启动以下4个 agent，每个 agent 使用 `model: sonnet`：
+使用 Agent tool 依次执行以下4个分析，每个使用 `model: sonnet`：
 
-#### Agent 1: fundamental-analyst
+#### Agent 1: fundamental-analyst（先执行，等待完成）
 ```
-Task(
-  subagent_type: "general-purpose",
-  model: "sonnet",
-  prompt: "你是 fundamental-analyst。对 {TICKER} 进行基本面分析。
-  使用 WebSearch 获取最新财报数据、分析师评级、行业对比。
-  将报告保存到 skills/deep-research/reports/{TICKER}_{DATE}/fundamental.md
-  报告须涵盖：业务质量、财务健康度、估值评估、同业对比。中文输出。"
+Agent(
+  subagent_type: "fundamental-analyst",
+  prompt: "分析 {TICKER}，输出目录: skills/deep-research/reports/{TICKER}_{DATE}/"
 )
 ```
 
-#### Agent 2: technical-analyst
+#### Agent 2: technical-analyst（等 Agent 1 完成后执行）
 ```
-Task(
-  subagent_type: "general-purpose",
-  model: "sonnet",
-  prompt: "你是 technical-analyst。对 {TICKER} 进行技术面分析。
-  使用 WebSearch 获取价格数据、技术指标。
-  将报告保存到 skills/deep-research/reports/{TICKER}_{DATE}/technical.md
-  报告须涵盖：趋势判断、关键价位、形态与动量、技术评级。中文输出。"
+Agent(
+  subagent_type: "technical-analyst",
+  prompt: "分析 {TICKER}，输出目录: skills/deep-research/reports/{TICKER}_{DATE}/"
 )
 ```
 
-#### Agent 3: catalyst-analyst
+#### Agent 3: catalyst-analyst（等 Agent 2 完成后执行）
 ```
-Task(
-  subagent_type: "general-purpose",
-  model: "sonnet",
-  prompt: "你是 catalyst-analyst。对 {TICKER} 进行催化剂分析。
-  使用 WebSearch 获取近期新闻、机构持仓变化、财报日历。
-  将报告保存到 skills/deep-research/reports/{TICKER}_{DATE}/catalyst.md
-  报告须涵盖：近期新闻影响、机构持仓动向、未来事件日历、催化剂评级。中文输出。"
+Agent(
+  subagent_type: "catalyst-analyst",
+  prompt: "分析 {TICKER}，输出目录: skills/deep-research/reports/{TICKER}_{DATE}/"
 )
 ```
 
-#### Agent 4: risk-analyst
+#### Agent 4: risk-analyst（等 Agent 3 完成后执行）
 ```
-Task(
-  subagent_type: "general-purpose",
-  model: "sonnet",
-  prompt: "你是 risk-analyst。对 {TICKER} 进行风险分析。
-  使用 WebSearch 获取宏观数据、行业风险因素。
-  将报告保存到 skills/deep-research/reports/{TICKER}_{DATE}/risk.md
-  报告须涵盖：宏观环境适配度、行业/个股风险、下行情景分析。中文输出。"
+Agent(
+  subagent_type: "risk-analyst",
+  prompt: "分析 {TICKER}，输出目录: skills/deep-research/reports/{TICKER}_{DATE}/"
 )
 ```
 
-**重要：** 这4个 Task 调用必须在同一轮中一起发出，不要等待某个完成再启动下一个。
+**重要：** 每个 Agent 调用必须等待上一个返回结果后再发出，确保串行顺序执行。各 agent 的完整分析框架已定义在对应的 agent 文件中，无需在此重复。
 
 ---
 
@@ -306,15 +290,15 @@ Fetched At: 当前日期时间
 
 ## Important Notes
 
-- 本技能为**编排型技能**，通过并行 agent 提高效率
+- 本技能为**编排型技能**，通过串行 agent 依次执行
 - 4个 agent 使用 sonnet 模型，性价比最优
 - 所有分析和输出使用中文
 - 这是教育和信息用途，不构成投资建议
 
 ---
 
-**Version:** 1.0
-**Last Updated:** 2026-03-13
-**Execution Time:** ~3-5 分钟（并行执行，约等于最慢 agent 的耗时）
+**Version:** 1.1
+**Last Updated:** 2026-03-17
+**Execution Time:** ~10-15 分钟（串行执行，4个 agent 依次完成）
 **Output:** 1份综合研报 + 4份子报告 + Notion 页面
 **Dependencies:** WebSearch + 4个分析 agent + Notion MCP（可选）

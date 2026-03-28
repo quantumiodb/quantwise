@@ -7,6 +7,7 @@ description: |
   生成包含一级、二级、三级影响、推荐股票和评审的综合报告，以中文输出。
   使用示例: /scenario-analyzer "Fed raises rates by 50bp"
   触发条件: 新闻分析、情景分析、18个月展望、中长期投资策略
+allowed-tools: [WebSearch, WebFetch]
 ---
 
 # 标题情景分析器

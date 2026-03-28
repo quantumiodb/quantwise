@@ -1,6 +1,7 @@
 ---
 name: dividend-growth-pullback-screener
 description: Use this skill to find high-quality dividend growth stocks (12%+ annual dividend growth, 1.5%+ yield) that are experiencing temporary pullbacks, identified by RSI oversold conditions (RSI ≤40). This skill combines fundamental dividend analysis with technical timing indicators to identify buying opportunities in strong dividend growers during short-term weakness.
+allowed-tools: [Bash(python3:*)]
 ---
 
 # Dividend Growth Pullback Screener

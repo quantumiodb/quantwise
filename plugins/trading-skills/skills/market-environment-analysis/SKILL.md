@@ -1,6 +1,7 @@
 ---
 name: market-environment-analysis
 description: 综合市场环境分析与报告工具。分析全球市场，包括美国、欧洲、亚洲市场、外汇、大宗商品和经济指标。提供风险偏好/风险规避评估、板块分析和技术指标解读。触发关键词包括：market analysis, market environment, global markets, trading environment, market conditions, investment climate, market sentiment, forex analysis, stock market analysis, 市场环境, 市场分析, 行情状况, 投资环境。
+allowed-tools: [WebSearch, WebFetch, Bash(python:*)]
 ---
 
 # 市场环境分析

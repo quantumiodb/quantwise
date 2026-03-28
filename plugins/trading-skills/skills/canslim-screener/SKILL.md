@@ -1,6 +1,7 @@
 ---
 name: canslim-screener
 description: Screen US stocks using William O'Neil's CANSLIM growth stock methodology. Use when user requests CANSLIM stock screening, growth stock analysis, momentum stock identification, or wants to find stocks with strong earnings and price momentum following O'Neil's investment system.
+allowed-tools: [Bash(python3:*)]
 ---
 
 # CANSLIM Stock Screener - Phase 3 (Full CANSLIM)

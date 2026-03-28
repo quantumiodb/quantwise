@@ -1,6 +1,7 @@
 ---
 name: vcp-screener
 description: Screen S&P 500 stocks for Mark Minervini's Volatility Contraction Pattern (VCP). Identifies Stage 2 uptrend stocks forming tight bases with contracting volatility near breakout pivot points. Use when user requests VCP screening, Minervini-style setups, tight base patterns, volatility contraction breakout candidates, or Stage 2 momentum stock scanning.
+allowed-tools: [Bash(python3:*)]
 ---
 
 # VCP Screener - Minervini Volatility Contraction Pattern

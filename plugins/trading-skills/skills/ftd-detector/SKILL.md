@@ -1,6 +1,7 @@
 ---
 name: ftd-detector
 description: 检测Follow-Through Day（FTD）信号以确认市场底部，采用William O'Neil的方法论。双指数跟踪（S&P 500 + NASDAQ），使用状态机进行反弹尝试、FTD确认和FTD后健康监控。当用户询问市场底部信号、Follow-Through Day、反弹尝试、调整后的重新入场时机，或是否可以安全增加股票仓位时使用。与market-top-detector（防御性）互补——本技能为进攻性（底部确认）。
+allowed-tools: [Bash(python3:*)]
 ---
 
 # FTD检测器技能

@@ -1,6 +1,7 @@
 ---
 name: theme-detector
 description: Detect and analyze trending market themes across sectors. Use when user asks about current market themes, trending sectors, sector rotation, thematic investing, what themes are hot or cold, or wants to identify bullish and bearish market narratives with lifecycle analysis.
+allowed-tools: [WebSearch, WebFetch, Bash(python3:*)]
 ---
 
 # Theme Detector
